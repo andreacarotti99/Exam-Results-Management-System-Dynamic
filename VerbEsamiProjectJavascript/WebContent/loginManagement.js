@@ -28,7 +28,7 @@
                 sessionStorage.setItem('username', user.username);
                 sessionStorage.setItem('name', user.name);
                 sessionStorage.setItem('surname', user.surname);
-                sessionStorage.setItem('isProfessor', user.isProfessor);
+                sessionStorage.setItem('isProfessor', user.isProfessor); //this method sets a string value: "true" or "false"
                 
                 //going to the html of the main page
                 if (user.isProfessor == true){

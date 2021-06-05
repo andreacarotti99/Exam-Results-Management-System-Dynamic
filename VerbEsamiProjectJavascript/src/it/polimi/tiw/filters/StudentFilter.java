@@ -43,7 +43,7 @@ public class StudentFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		String loginpath = req.getServletContext().getContextPath() + "/HomePage";
+		String loginpath = req.getServletContext().getContextPath() + "/Logout";
 		
 		HttpSession s = req.getSession();
 		User u = null;
@@ -51,8 +51,7 @@ public class StudentFilter implements Filter {
 		//we get from the session the user attribute
 		u = (User) s.getAttribute("user");
 		//check id user in the session is a student
-		if (u.getIsProfessor()) {
-			s.setAttribute("errorMessage", "you filthy hacker, you are not a student, we logged you off for security reasons");
+		if (u.isProfessor()) {
 			res.sendRedirect(loginpath);
 			return;
 		}

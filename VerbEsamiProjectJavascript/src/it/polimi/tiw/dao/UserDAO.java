@@ -38,7 +38,7 @@ public class UserDAO {
 					user.setUsername(result.getString("username"));
 					user.setName(result.getString("name"));
 					user.setSurname(result.getString("surname"));
-					user.setIsProfessor(result.getBoolean("isProfessor"));
+					user.setProfessor(result.getBoolean("isProfessor"));
 					user.setMail(result.getString("email"));
 					return user;
 				}

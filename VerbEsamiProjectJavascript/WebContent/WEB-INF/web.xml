@@ -18,9 +18,60 @@
 	    <param-value>com.mysql.cj.jdbc.Driver</param-value>
 	  </context-param>
 
+  <filter>
+  	<filter-name>NoCache</filter-name>
+  	<filter-class>it.polimi.tiw.filters.NoCache</filter-class>
+  </filter>
+  <filter>
+  	<filter-name>CheckSessionLogin</filter-name>
+  	<filter-class>it.polimi.tiw.filters.CheckSessionLogin</filter-class>
+  </filter>
+  <filter>
+  	<filter-name>ProfessorFilter</filter-name>
+  	<filter-class>it.polimi.tiw.filters.ProfessorFilter</filter-class>
+  </filter>
+  <filter>
+  	<filter-name>StudentFilter</filter-name>
+  	<filter-class>it.polimi.tiw.filters.StudentFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>NoCache</filter-name>
+  	<url-pattern>/StudentHome.html</url-pattern>
+  	<url-pattern>/ProfessorHome.html</url-pattern>
+  	
+    <dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 
-
-
+  <filter-mapping>
+  	<filter-name>CheckSessionLogin</filter-name>
+  	<url-pattern>/StudentHome.html</url-pattern>
+  	<url-pattern>/ProfessorHome.html</url-pattern>
+  	
+    <dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  
+  <filter-mapping>
+  	<filter-name>ProfessorFilter</filter-name>
+  	<url-pattern>/ProfessorHome.html</url-pattern>
+  	
+    <dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+ 
+  
+  
+  <filter-mapping>
+  	<filter-name>StudentFilter</filter-name>
+  	<url-pattern>/StudentHome.html</url-pattern>
+  	
+    <dispatcher>REQUEST</dispatcher>
+  	<dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+ 
 
 
 	<welcome-file-list>

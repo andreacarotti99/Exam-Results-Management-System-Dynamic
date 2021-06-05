@@ -13,9 +13,16 @@ public class User {
 	public String getPassword(){
 		return this.password;
 	}
-	public boolean getIsProfessor() {
-		return this.isProfessor;
+	
+	public boolean isProfessor() {
+		return isProfessor;
 	}
+
+
+	public void setProfessor(boolean isProfessor) {
+		this.isProfessor = isProfessor;
+	}
+
 	public String getMail() {
 		return this.mail;
 	}
@@ -28,9 +35,7 @@ public class User {
 		this.password = password;
 	}
 	
-	public void setIsProfessor(boolean isProfessor) {
-		this.isProfessor = isProfessor;
-	}
+	
 	
 	public void setMail(String mail) {
 		this.mail = mail;

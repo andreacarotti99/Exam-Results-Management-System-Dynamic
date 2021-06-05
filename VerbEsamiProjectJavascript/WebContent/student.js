@@ -3,7 +3,7 @@
 
 
     window.addEventListener("load", () => {
-	    if (sessionStorage.getItem("username") == null || sessionStorage.getItem("isProfessor") == true) {
+	    if (sessionStorage.getItem("username") == null || sessionStorage.getItem("isProfessor") == "true") {
 	      window.location.href = "index.html";
 	    } else {
             var greet = document.getElementById("greetings");

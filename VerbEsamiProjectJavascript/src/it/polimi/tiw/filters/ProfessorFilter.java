@@ -43,17 +43,17 @@ public class ProfessorFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		String loginpath = req.getServletContext().getContextPath() + "/HomePage";
+		String loginpath = req.getServletContext().getContextPath() + "/Logout";
 		
 		HttpSession s = req.getSession();
 		User u = null;
 		u = (User) s.getAttribute("user");
 		//check id user in the session is a professor
-		if (!u.getIsProfessor()) {
-			s.setAttribute("errorMessage", "you filthy hacker, you are not a professor, we logged you off for security reasons");
+		if (!u.isProfessor()) {
 			res.sendRedirect(loginpath);
 			return;
 		}
+		
 		
 		//end of filter request-side
 		chain.doFilter(request, response);
