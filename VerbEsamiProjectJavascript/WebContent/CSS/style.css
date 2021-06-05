@@ -5,3 +5,7 @@
 th.sortable {
 	cursor: pointer;
 }
+
+.alertmessage{
+	color: red;
+}
