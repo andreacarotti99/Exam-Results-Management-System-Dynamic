@@ -24,7 +24,7 @@
             switch (req.status) {
               case 200://good request
                 //parsing to object from json string
-                var user = JSON.parse(req.responseText);
+                var user = JSON.parse(message);
                 sessionStorage.setItem('username', user.username);
                 sessionStorage.setItem('name', user.name);
                 sessionStorage.setItem('surname', user.surname);

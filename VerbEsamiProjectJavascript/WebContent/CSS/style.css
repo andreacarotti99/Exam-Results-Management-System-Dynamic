@@ -1,0 +1,7 @@
+.boxed {
+	border: 1px solid black;
+}
+
+th.sortable {
+	cursor: pointer;
+}

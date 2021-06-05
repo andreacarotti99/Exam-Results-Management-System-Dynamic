@@ -3,6 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Student Home Page</title>
+<link rel="stylesheet" type="text/css" media="all" href="CSS/style.css" />
 <script src="makeCall.js" charset="utf-8" defer></script>
 <script src="student.js" charset="utf-8" defer></script>
 
@@ -13,7 +14,60 @@
 		<a href="Logout">Logout</a>
 	</div>
 
-    <p>Hello <span id = greetings></span></p>
+    <p>Hello <span id="greetings"></span></p>
+
+
+    <table>
+        <tr>
+            <!--table of classes-->
+            <td><table id="classesTable" class="boxed">
+                <thead>
+                    <tr>
+                        <th>Class name</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="classesTableBody">
+
+                </tbody>
+
+            </table></td>
+
+            <!--table of rounds-->
+            <td><table id="roundsTable" class="boxed">
+                <thead>
+                    <tr>
+                        <th>Round date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="roundsTableBody">
+
+                </tbody>
+
+            </table></td>
+        </tr>
+
+        <tr>
+            <!--table of round mark info-->
+            <td><div id="yourMarkDiv" class="boxed">
+                <p>Name: <span id="nameInfo"></span></p>
+                <p>Surname: <span id="surnameInfo"></span></p>
+                <p>Student number: <span id="studentNumberInfo"></span></p>
+                <p>Degree course: <span id="degreeCourseInfo"></span></p>
+                <p>Mail: <span id="mailInfo"></span></p>
+                <p>Mark: <span id="markInfo"></span></p>
+                <p>Status: <span id="statusInfo"></span></p>
+            </div></td>
+
+            <!--space for reject button or for more extra info-->
+            <td><div id="rejectButton">
+
+            </div></td>
+        </tr>
+
+    </table>
+
 
 
 </body>
