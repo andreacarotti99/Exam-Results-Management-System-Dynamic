@@ -123,8 +123,8 @@ public class GeneralChecksDAO {
 		String query = "SELECT * FROM registered WHERE idround = ? AND idstudent = ?";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
-			pstatement.setInt(1, studentId);
-			pstatement.setInt(2, roundId);
+			pstatement.setInt(1, roundId);
+			pstatement.setInt(2, studentId);
 			
 			try (ResultSet result = pstatement.executeQuery();) {
 				while(result.next()) {
@@ -147,15 +147,15 @@ public class GeneralChecksDAO {
 		String query = "SELECT * FROM registered WHERE idround = ? AND idstudent = ?";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
-			pstatement.setInt(1, studentId);
-			pstatement.setInt(2, roundId);
+			pstatement.setInt(1, roundId);
+			pstatement.setInt(2, studentId);
 			
 			try (ResultSet result = pstatement.executeQuery();) {
 				while(result.next()) {
 					int mark = result.getInt("mark");
 					int state = result.getInt("state");
 					
-					if (state == 2 && mark != 1 && mark != 2 && mark != 3) {//published and not absent/failure/miss_next_round mark
+					if (state == 1 && mark != 1 && mark != 2 && mark != 3) {//published and not absent/failure/miss_next_round mark
 						return true;
 					}
 				}

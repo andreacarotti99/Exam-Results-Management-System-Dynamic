@@ -1,5 +1,6 @@
 package it.polimi.tiw.beans;
 
+import java.sql.Date;
 
 public class RegisteredStudent {
     private int id;
@@ -92,5 +93,6 @@ public class RegisteredStudent {
     public void setStatus(Integer status) {
 		this.status = MarkStatus.getMarkStatusFromInt(status);
     }
+    
 }
 
