@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import it.polimi.tiw.beans.Classe;
 import it.polimi.tiw.beans.Round;
 import it.polimi.tiw.beans.Verbal;
 
@@ -95,4 +96,25 @@ public class ExtraInfoDAO {
 		
 		return -1;  //should never get here
 	}
+	
+	public Classe getClassBeanOfRound(int roundId) throws SQLException {
+		Classe classe = new Classe();
+		
+		String query = "SELECT * FROM round r join class c on r.idclass = c.idclass WHERE r.idround = ?";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, roundId);
+			
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {  //this should only loop once if the db is created correctly
+					classe.setClassID(result.getInt("c.idclass"));
+					classe.setClassName(result.getString("c.classname"));
+					return classe;
+				}
+			}
+		}
+		//should never get here
+		return null;
+	}
+	
 }

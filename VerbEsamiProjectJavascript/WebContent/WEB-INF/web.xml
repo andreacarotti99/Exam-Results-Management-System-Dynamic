@@ -39,6 +39,8 @@
   	<filter-name>NoCache</filter-name>
   	<url-pattern>/StudentHome.html</url-pattern>
   	<url-pattern>/ProfessorHome.html</url-pattern>
+  	<url-pattern>/student.js</url-pattern>
+  	<url-pattern>/professor.js</url-pattern>
   	
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>

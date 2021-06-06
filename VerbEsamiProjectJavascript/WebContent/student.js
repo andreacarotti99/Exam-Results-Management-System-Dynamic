@@ -45,7 +45,7 @@
 
 					if (req.status == 200) {  //ok request
 						var classesToSHow = JSON.parse(message);
-						if (classesToSHow.lenght == 0){  //print error message if this student isn't attending any class
+						if (classesToSHow.length == 0){  //print error message if this student isn't attending any class
 							self.alert.textContent = "You aren't attending any class!";
 							return;
 						}
@@ -78,9 +78,12 @@
 				  linkCell.appendChild(anchor);
 				  linkText = document.createTextNode("view rounds");
 				  anchor.appendChild(linkText);
-				  anchor.setAttribute("classId", classe.classID);   //set custom html attribute for the link
+				  anchor.setAttribute("classId", classe.classID);   //set custom html attributes for the link
+				  anchor.setAttribute("className", classe.className);
 				  anchor.addEventListener("click", (e) => {
-					//roundsList.show(e.target.getAttribute("classId"));  //calling the show function on the roundsList
+					  pageOrchestrator.refresh();
+					  roundsList.show(e.target.getAttribute("classId"), e.target.getAttribute("className"));  //calling the show function on the roundsList
+					  
 				  }, false);
 				  anchor.href = "#";
 				  row.appendChild(linkCell);
@@ -104,6 +107,115 @@
 			  }
 		  };
 	  }  //no ; at the end of this function because it is not a function expression
+
+
+	  function RoundsList(alert, roundsTable, roundsTableBody, className) {
+		  this.alert = alert;
+		  this.roundsTable = roundsTable;
+		  this.roundsTableBody = roundsTableBody;
+		  this.className = className;
+
+		  //this function makes the tabel hidden
+		  this.reset = function() {
+			  this.className.style.visibility = "hidden";
+			  this.roundsTable.style.visibility = "hidden";
+		  };
+
+		  this.show = function(classId, className) {
+			  var self = this;
+
+			  makeCall("GET", "GetRoundsStudent?classId=" + classId, null, 
+			  //this is the callBack function
+			  function(req) {
+				  if (req.readyState == XMLHttpRequest.DONE) {
+					  var message = req.responseText;
+
+					  if (req.status == 200) {  //ok request
+						  var roundsToShow = JSON.parse(message);
+						  if (roundsToShow.length == 0) {
+							  self.reset();
+							  self.alert.textContent = "there are no rounds for the class: " + className;
+							  return;
+						  }
+						  self.className.textContent = "These are the rounds of the class: " + className;
+						  self.update(roundsToShow);
+					  }
+					  else { //bad request
+						  self.className.textContent = "";
+						  self.alert.textContent = message;
+					  }
+				  }
+			  });
+		  };
+
+		  this.update = function(roundArray) {
+			var row, dateCell, linkCell, linkText, anchor;
+			this.roundsTableBody.innerHTML = "";  //empties the table body
+
+			var self = this;
+			roundArray.forEach(function(round) {
+				//creating row
+				row = document.createElement("tr");
+				//adding round date to thr row
+				dateCell = document.createElement("td");
+				dateCell.textContent = round.date;
+				row.appendChild(dateCell);
+				//adding the link to view details or to register to the round
+				linkCell = document.createElement("td");
+				anchor = document.createElement("a");
+				linkCell.appendChild(anchor);
+				if (round.studentRegistered == true) { //student already registered
+					linkText = document.createTextNode("view details");
+					anchor.appendChild(linkText);
+					anchor.setAttribute("roundId", round.roundId);
+					anchor.addEventListener("click", (e) => {
+						//markDetails.show(e.target.getAttribute("roundId"));  //calling the show function of markDetails
+
+					}, false);
+					anchor.href = "#";
+					row.appendChild(linkCell);
+				}
+				else {  //student not registered to round
+					linkText = document.createTextNode("register to round");
+					anchor.appendChild(linkText);
+					anchor.setAttribute("roundId", round.roundId);
+					anchor.addEventListener("click", (e) => {
+						self.registerToRound(e.target.getAttribute("roundId")); //calling the function of registeringToRound
+
+					}, false);
+					anchor.href = "#";
+					row.appendChild(linkCell);
+				}
+				self.roundsTableBody.appendChild(row);
+			});
+			//making the table visible again
+			this.roundsTable.style.visibility = "visible";
+			this.className.style.visibility = "visible";
+		  };
+
+
+		  this.registerToRound = function(roundId) {
+			  var self = this;
+
+			  makeCall("POST", "RegisterToRound?roundId=" + roundId, null, 
+			  //this is the callBack function
+			  function(req) {
+				  if (req.readyState == XMLHttpRequest.DONE) {
+					  var message = req.responseText;
+
+					  if (req.status == 200){
+						  var classBean = JSON.parse(message);
+						  self.reset();
+						  self.show(classBean.classID, classBean.className);
+					  }
+					  else {
+						  self.alert.textContent = message;
+					  }
+				  }
+			  });
+		  };
+
+	  } //no ; at the end of this function because it is not a function expression
 
 
 	  //complete with other elements
@@ -131,9 +243,18 @@
 				  document.getElementById("classesTable"),
 				  document.getElementById("classesTableBody")
 			  );
+
+			  roundsList = new RoundsList(
+				  alertContainer,
+				  document.getElementById("roundsTable"),
+				  document.getElementById("roundsTableBody"),
+				  document.getElementById("className")
+			  )
+
+			  roundsList.reset();
 			  classesList.reset();
 			  classesList.show();
-
+			  
 			  //complete with other elements
 
 
