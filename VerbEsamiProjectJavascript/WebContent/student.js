@@ -270,8 +270,8 @@
 		  this.update = function(studentInfo, roundInfo) {
 			  this.roundDateInfo.textContent = roundInfo.date;
 
-			  if (studentInfo.status == "NOT_INSERTED") { //mark still not inserted so only show the not inserted message
-				this.notInsertedMessage.textContent = "The Professor still hasn't inserted the mark";
+			  if (studentInfo.status == "NOT_INSERTED" || studentInfo.status == "INSERTED") { //mark still not inserted so only show the not inserted message
+				this.notInsertedMessage.textContent = "The Professor still hasn't published the mark";
 				this.nameInfo.textContent = "";
 				this.surnameInfo.textContent = "";
 				this.studentNumberInfo.textContent = "";
@@ -294,7 +294,7 @@
   
 				this.rejectButton.innerHTML = ""; //to delete everything in the reject button paragraph
   
-				if (studentInfo.status == "INSERTED") {  //if checks pass then place the reject button
+				if (studentInfo.status == "PUBLISHED") {  //if checks pass then place the reject button
 					if (studentInfo.mark != "<empty>" && studentInfo.mark != "absent" && studentInfo.mark != "failed" && studentInfo.mark != "skip next round") {
 						var linkText, anchor;
 						var self = this;

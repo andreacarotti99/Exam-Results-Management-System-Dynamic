@@ -155,7 +155,7 @@ public class GeneralChecksDAO {
 					int mark = result.getInt("mark");
 					int state = result.getInt("state");
 					
-					if (state == 1 && mark != 1 && mark != 2 && mark != 3) {//published and not absent/failure/miss_next_round mark
+					if (state == 2 && mark != 1 && mark != 2 && mark != 3) {//published and not absent/failure/miss_next_round mark
 						return true;
 					}
 				}
