@@ -41,6 +41,7 @@
   	<url-pattern>/ProfessorHome.html</url-pattern>
   	<url-pattern>/student.js</url-pattern>
   	<url-pattern>/professor.js</url-pattern>
+  	<url-pattern>/makeCall.js</url-pattern>
   	
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
@@ -50,6 +51,11 @@
   	<filter-name>CheckSessionLogin</filter-name>
   	<url-pattern>/StudentHome.html</url-pattern>
   	<url-pattern>/ProfessorHome.html</url-pattern>
+  	<url-pattern>/GetClassesStudent</url-pattern>
+  	<url-pattern>/GetMarkDetailsStudent</url-pattern>
+  	<url-pattern>/GetRoundsStudent</url-pattern>
+  	<url-pattern>/RegisterToRound</url-pattern>
+  	<url-pattern>/RejectMark</url-pattern>
   	
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
@@ -69,7 +75,11 @@
   <filter-mapping>
   	<filter-name>StudentFilter</filter-name>
   	<url-pattern>/StudentHome.html</url-pattern>
-  	
+  	<url-pattern>/GetClassesStudent</url-pattern>
+  	<url-pattern>/GetMarkDetailsStudent</url-pattern>
+  	<url-pattern>/GetRoundsStudent</url-pattern>
+  	<url-pattern>/RegisterToRound</url-pattern>
+  	<url-pattern>/RejectMark</url-pattern>
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   </filter-mapping>
