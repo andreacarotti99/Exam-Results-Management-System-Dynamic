@@ -14,7 +14,128 @@
 		<a href="Logout">Logout</a>
 	</div>
 
-    <p>Hello <span id="greetings"></span></p>
+    <p>Hello <span id="greetings"></span></p> <!--this is the custom welcome message-->
+
+    <div id="alert" class="alertmessage"></div> <!--this is the space to print error messages-->
+
+    <table>
+        <tr>
+            <!--table of classes-->
+            <td><table id="classesTable" class="boxed">
+                <thead>
+                    <tr>
+                        <th>Class name</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="classesTableBody">
+
+                </tbody>
+
+            </table></td>
+
+            <!--table of rounds-->
+            <td><span id="className"></span>
+            	<table id="roundsTable" class="boxed">
+                <thead>
+                    <tr>
+                        <th>Round date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="roundsTableBody">
+
+                </tbody>
+
+            </table></td>
+        </tr>
+
+        <tr>
+
+            <!--table of registered students-->
+            <td><span id="roundDateInfo"></span>
+                <table id="registeredStudentsTable" class="boxed">
+                <thead>
+                    <tr>
+                        <th>Student Number</th>
+                        <th>Surname</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Degree Course</th>
+                        <th>Mark</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="registeredStudentsTableBody">
+
+                </tbody>
+
+            </table></td>
+
+
+            <!--Single insertion of mark-->
+            <td><div id="singleInsertionDiv" class="boxed">
+                <p>This is the selected student info: </p>
+                <p id="nameInfo"></p>
+                <p id="surnameInfo"></p>
+                <p id="studentNumberInfo"></p>
+                <p id="degreeCourseInfo"></p>
+                <p id="mailInfo"></p>
+                <p id="markInfo"></p>
+                <p id="statusInfo"></p>
+                <form action="#">
+                    <fieldset>
+                        <select name="newMark" type="number" required>
+                            <option value=1>absent</option>
+                            <option value=2>failed</option>
+                            <option value=3>skip next round</option>
+                            <option value=18 selected>18</option>
+                            <option value=19>19</option>
+                            <option value=20>20</option>
+                            <option value=21>21</option>
+                            <option value=22>22</option>
+                            <option value=23>23</option>
+                            <option value=24>24</option>
+                            <option value=25>25</option>
+                            <option value=26>26</option>
+                            <option value=27>27</option>
+                            <option value=28>28</option>
+                            <option value=29>29</option>
+                            <option value=30>30</option>
+                            <option value=31>30 with honor</option>
+                        </select>
+
+                        <input type="hidden" name="roundId">
+                        <input type="hidden" name="studentId">
+
+                        <input id="newMarkButton" type="button" value="Insert mark">
+                    </fieldset>
+                </form>
+            </div></td>
+
+
+            <!--Verbal and verbal info    NOT HERE BUT BELOW-->  
+            <td>
+                <!--TODO-->
+
+            </td>
+
+        </tr>
+    </table>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+        <span class="close">&times;</span>   <!-- the 'X' button to close the modal if user doesn't want to commit the multiple insertion-->
+        <table id="modalTable">
+            <!--TODO-->
+
+        </table>
+        </div>
+    
+    </div>
 
 
 </body>

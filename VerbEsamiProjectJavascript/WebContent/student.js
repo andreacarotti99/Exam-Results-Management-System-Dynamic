@@ -21,7 +21,7 @@
 
 		  this.show = function() {
 			  personalMessageContainer.textContent = this.name + " " + this.surname;
-		  }
+		  };
 	  }
 
 
@@ -35,7 +35,7 @@
 			  this.classesTable.style.visibility = "hidden";
 		  };
 
-		  this.show = function() {  //next will be the autoclick function if we need to autockick
+		  this.show = function() {
 			  var self = this;//to have a reference to ClassesList function inside the makeCall
 			  
 			  makeCall("GET", "GetClassesStudent" , null, 
@@ -101,7 +101,7 @@
 		  this.autoClick = function() {
 			  var event = new Event("click");
 
-			  var anchorToClick = this.classesTableBody.querySelectorAll("a")[0];
+			  var anchorToClick = this.classesTableBody.querySelectorAll("a")[0]; //autoclick on first element
 
 			  //maybe check if anchorToClick is != null
 			  if (anchorToClick) {
