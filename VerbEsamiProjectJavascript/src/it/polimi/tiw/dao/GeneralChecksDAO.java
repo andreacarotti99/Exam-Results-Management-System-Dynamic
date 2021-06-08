@@ -188,4 +188,27 @@ public class GeneralChecksDAO {
 	}
 	
 	
+	public boolean isMarkNotInserted(int roundId, int studentId)throws SQLException {
+		
+		String query = "SELECT * FROM registered WHERE idround = ? AND idstudent = ?";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, roundId);
+			pstatement.setInt(2, studentId);
+			
+			try (ResultSet result = pstatement.executeQuery();) {
+				while(result.next()) {
+					int state = result.getInt("state");
+					
+					if (state == 0) {//not inserted
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+		
+	}
+	
 }

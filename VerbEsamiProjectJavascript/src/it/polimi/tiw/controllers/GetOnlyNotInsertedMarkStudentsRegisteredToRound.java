@@ -25,13 +25,13 @@ import it.polimi.tiw.dao.RegisteredStudentsDAO;
 import it.polimi.tiw.utils.ConnectionHandler;
 
 
-@WebServlet("/GetStudentsRegisteredToRound")
-public class GetStudentsRegisteredToRound extends HttpServlet {
+@WebServlet("/GetOnlyNotInsertedMarkStudentsRegisteredToRound")
+public class GetOnlyNotInsertedMarkStudentsRegisteredToRound extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
        
     
-    public GetStudentsRegisteredToRound() {
+    public GetOnlyNotInsertedMarkStudentsRegisteredToRound() {
         super();
     }
     
@@ -45,8 +45,8 @@ public class GetStudentsRegisteredToRound extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		//no need to check the session variable 'user' because we are using filters
-		User user = (User) session.getAttribute("user");	
-	
+		User user = (User) session.getAttribute("user");
+		
 		int roundId;
 		try {
 			roundId = Integer.parseInt(request.getParameter("roundId"));
@@ -74,17 +74,11 @@ public class GetStudentsRegisteredToRound extends HttpServlet {
 			return;
 		}
 		
-		
-		//actual DAO to get the informations from the db
 		RegisteredStudentsDAO registeredStudentsDAO = new RegisteredStudentsDAO(connection);
-		List<RegisteredStudent> registeredStudents = new ArrayList<RegisteredStudent>();
-		ExtraInfoDAO extraInfoDAO = new ExtraInfoDAO(connection);
-		Round roundInfo;
+		List<RegisteredStudent> studentWithNotInsertedMark = new ArrayList<RegisteredStudent>();
 		try {
-			roundInfo = extraInfoDAO.getRoundInfo(roundId);
 			
-			//get the registered student with the initial ascendant order by student number
-			registeredStudents = registeredStudentsDAO.getRegisteredStudentsOrdered(roundId, "s.studentnumber", "asc");
+			studentWithNotInsertedMark = registeredStudentsDAO.getStudentsWithNotInsertedMark(roundId);
 			
 			
 		} catch (SQLException e) {
@@ -93,27 +87,22 @@ public class GetStudentsRegisteredToRound extends HttpServlet {
 			return;
 		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create(); //custom Gson
+		Gson gson = new Gson();
 		
-		String registeredStudentsJson = gson.toJson(registeredStudents);
-		String roundInfoJson = gson.toJson(roundInfo);
-		
-		String toClient = registeredStudentsJson + "%" + roundInfoJson;  //this is to pass two separate object serialized with json
-		//we will use line.split("%") in javascript to separate the two json objects
+		String studentWithNotInsertedMarkJson = gson.toJson(studentWithNotInsertedMark);
 		
 		response.setStatus(HttpServletResponse.SC_OK);       //status code 200
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(toClient);
+		response.getWriter().write(studentWithNotInsertedMarkJson);
 		
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
 	
 	public void destroy() {
 		try {

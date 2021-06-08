@@ -49,6 +49,36 @@ public class RegisteredStudentsDAO {
 		}
 	}
 	
+	public List<RegisteredStudent> getStudentsWithNotInsertedMark(int roundId) throws SQLException {
+		List<RegisteredStudent> studentsWithNotInsertedMark = new ArrayList<RegisteredStudent>();
+		
+		//it shouldn't be a problem to insert orderId and orderDirection like this into the query because the two arguments are hardCoded into the method
+		//to see how this method is caller go to the servlet: GoToRegisteredToRoundPage at lines: 130-200
+		//we had to do this because prepared statement cannot be used for order by clause
+		String query = "select r.idstudent, r.mark, r.idround, r.state, u.name, u.surname, u.email, s.studentnumber, s.degreecourse from (registered r left join user u on r.idstudent = u.id) join studentinfo s on s.id = u.id where idround = ? and r.state = 0";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, roundId);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					
+					RegisteredStudent registeredStudent = new RegisteredStudent();
+					registeredStudent.setStudentNumber(result.getInt("s.studentnumber"));
+					registeredStudent.setSurname(result.getString("u.surname"));
+					registeredStudent.setName(result.getString("u.name"));
+					registeredStudent.setMail(result.getString("u.email"));
+					registeredStudent.setDegreeCourse(result.getString("s.degreecourse"));
+					registeredStudent.setMark(result.getInt("r.mark"));
+					registeredStudent.setStatus(result.getInt("r.state"));
+					registeredStudent.setId(result.getInt("r.idstudent"));
+					studentsWithNotInsertedMark.add(registeredStudent);
+
+				}
+			}
+		return studentsWithNotInsertedMark;	
+		}
+	}
+	
 	
 	public RegisteredStudent findInfoStudentByRoundIDAndStudentID(int roundId, int studentId) throws SQLException {
 		RegisteredStudent registeredStudent = null;

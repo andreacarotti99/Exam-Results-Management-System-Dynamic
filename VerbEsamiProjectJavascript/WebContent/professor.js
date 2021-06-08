@@ -13,7 +13,15 @@
 	    } // display initial content
 	}, false);
 
-      
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.addEventListener("click", (e) => {
+		if (e.target == document.getElementById("modalDiv")) {
+			modalMultipleInsertion.reset();
+		}
+	}, false);
+
+
 	function PersonalMessage(name, surname, personalMessageContainer){
 		this.name = name;
 		this.surname = surname;
@@ -185,15 +193,17 @@
 	} //no ; at the end of this function because it is not a function expression
 
 
-	function RegisteredStudents(alert, registeredStudentsTable, registeredStudentsTableBody, roundDateInfo) {
+	function RegisteredStudents(alert, registeredStudentsTable, registeredStudentsTableBody, roundDateInfo, registeredStudentsButtonsParagraph) {
 		this.alert = alert;
 		this.registeredStudentsTable = registeredStudentsTable;
 		this.registeredStudentsTableBody = registeredStudentsTableBody;
 		this.roundDateInfo = roundDateInfo;
+		this.registeredStudentsButtonsParagraph = registeredStudentsButtonsParagraph;
 
 		this.reset = function() {
 			this.roundDateInfo.style.visibility = "hidden";
 			this.registeredStudentsTable.style.visibility = "hidden";
+			this.registeredStudentsButtonsParagraph.style.visibility = "hidden";
 		};
 
 
@@ -235,6 +245,7 @@
 			var row, tableCell, button;
 
 			this.registeredStudentsTableBody.innerHTML = ""; //empties the table
+			this.registeredStudentsButtonsParagraph.innerHTML = ""; //empties the buttons paragraph
 
 			var self = this;
 			studentsRegisteredToRound.forEach(function(studentInfo) {
@@ -281,51 +292,77 @@
 				self.registeredStudentsTableBody.appendChild(row);
 			});
 
-			var paragraph, publishButton, verbalizeButton, multipleInsertionButton;
+			var publishButton, verbalizeButton, multipleInsertionButton;
 
-			paragraph = document.createElement("p");
 			publishButton = document.createElement("button");
 			publishButton.textContent = "Publish marks";
 			publishButton.addEventListener("click", (e) => {
-				pageOrchestrator.refresh("registeredStudents");
 				self.publishMarks(roundId);
 			});
-			paragraph.appendChild(publishButton);
-			this.registeredStudentsTableBody.appendChild(paragraph);
+			this.registeredStudentsButtonsParagraph.appendChild(publishButton);
 
-			paragraph = document.createElement("p");
 			verbalizeButton = document.createElement("button");
 			verbalizeButton.textContent = "Verbalize marks";
 			verbalizeButton.addEventListener("click", (e) => {
-				pageOrchestrator.refresh("registeredStudents");
 				self.verbalizeMarks(roundId);
 			});
-			paragraph.appendChild(verbalizeButton);
-			this.registeredStudentsTableBody.appendChild(paragraph);
+			this.registeredStudentsButtonsParagraph.appendChild(verbalizeButton);
 
-			paragraph = document.createElement("p");
 			multipleInsertionButton = document.createElement("button");
 			multipleInsertionButton.textContent = "Multiple mark insertion";
 			multipleInsertionButton.addEventListener("click", (e) => {
-				pageOrchestrator.refresh("registeredStudents");
-				//TODO
+				modalMultipleInsertion.show(roundId);
 			});
-			paragraph.appendChild(multipleInsertionButton);
-			this.registeredStudentsTableBody.appendChild(paragraph);
-
+			this.registeredStudentsButtonsParagraph.appendChild(multipleInsertionButton);
 
 			this.roundDateInfo.style.visibility = "visible";
 			this.registeredStudentsTable.style.visibility = "visible";
+			this.registeredStudentsButtonsParagraph.style.visibility = "visible";
 		};
 
 
 		this.publishMarks = function(roundId) {
+			var self = this;
 
+			makeCall("POST", "PublishMarks?roundId=" + roundId, null,
+			//callBack function
+			function(req) {
+				if (req.readyState == XMLHttpRequest.DONE){
+
+					if (req.status == 200){
+
+						pageOrchestrator.refresh("roundsList");
+						self.show(roundId);
+					}
+					else{
+						var message = req.responseText;
+						self.alert.textContent = message;
+					}
+				}
+			});
 		};
 
 
 		this.verbalizeMarks = function(roundId) {
+			var self = this;
 
+			makeCall("POST", "VerbalizeMarks?roundId=" + roundId, null,
+			//rollback function
+			function(req) {
+				if (req.readyState == XMLHttpRequest.DONE) {
+
+					if (req.status == 200) {
+
+						pageOrchestrator.refresh("roundsList");
+						self.show(roundId);
+						verbal.show(roundId);
+					}
+					else {
+						var message = req.responseText;
+						self.alert.textContent = message;
+					}
+				}
+			});
 		};
 
 	} //no ; at the end of this function because it is not a function expression
@@ -393,7 +430,7 @@
 						if (req.status == 200) {
 							var roundId = parseInt(message);
 
-							pageOrchestrator.refresh("registeredStudents");
+							pageOrchestrator.refresh("roundsList");
 							registeredStudents.show(roundId);
 						}
 						else {
@@ -412,13 +449,259 @@
 
 
 
+	function Verbal(alert, verbalDiv, verbalInfo, verbalTableBody) {
+		this.alert = alert;
+		this.verbalDiv = verbalDiv;
+		this.verbalInfo = verbalInfo;
+		this.verbalTableBody = verbalTableBody;
+
+		this.reset = function(){
+			this.verbalDiv.style.visibility = "hidden";
+		};
+
+
+		this.show = function(roundId) {
+			var self = this;
+
+			makeCall("GET", "GetVerbalInfo?roundId=" + roundId, null,
+			//callBack function
+			function(req) {
+				if (req.readyState == XMLHttpRequest.DONE) {
+					var message = req.responseText;
+
+					if (req.status == 200) {
+						var split = message.split("%");
+
+						var verbalizedStudents = JSON.parse(split[0]);
+						var verbal = JSON.parse(split[1]);
+						var round = JSON.parse(split[2]);
+
+						self.update(verbalizedStudents, verbal, round);
+					}
+					else {
+						self.alert.textContent = message;
+					}
+				}
+			});
+		};
+
+
+		this.update = function(verbalizedStudents, verbal, round) {
+			var row, tebleCell;
+			var self = this;
+
+			this.verbalTableBody.innerHTML = ""; //empties the table rows
+
+			this.verbalInfo.textContent = "This is the information about the verbal: " + verbal.verbalID + ", verbalized on: " + verbal.date +
+			", that refers to the round on date: " + round.date + " of the class: " + round.className;
+
+			verbalizedStudents.forEach(function(studentInfo) {
+				row = document.createElement("tr");
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.studentNumber;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.surname;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.name;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.mark;
+				row.appendChild(tableCell);
+
+				self.verbalTableBody.appendChild(row);
+			});
+
+			this.verbalDiv.style.visibility = "visible";
+		};
+
+	} //no ; at the end of this function because it is not a function expression
 
 
 
+	function ModalMultipleInsertion(alert, modalDiv, closeModalButton, modalTable, modalTableBody, submitAllMarksButton){
+		this.alert = alert;
+		this.modalDiv = modalDiv;
+		this.closeModalButton = closeModalButton;
+		this.modalTable = modalTable;
+		this.modalTableBody = modalTableBody;
+		this.submitAllMarksButton = submitAllMarksButton;
+
+		this.reset = function() {
+			this.modalDiv.style.display = "none";
+		};
 
 
+		this.show = function(roundId) {
+			var self = this;
+
+			makeCall("GET", "GetOnlyNotInsertedMarkStudentsRegisteredToRound?roundId=" + roundId, null,
+			//callBack function
+			function(req) {
+				if (req.readyState == XMLHttpRequest.DONE) {
+					var message = req.responseText;
+
+					if (req.status == 200) {
+
+						var studentsList = JSON.parse(message);
+
+						if (studentsList.length == 0) {
+							self.alert.textContent = "There are no students with the mark status = NOT_INSERTED";
+							return;
+						}
+
+						pageOrchestrator.refresh("registeredStudents");
+						self.update(studentsList, roundId);
+
+					}
+					else {
+						self.alert.textContent = message;
+					}
+				}
+			});
+		};
 
 
+		this.update = function(studentList, roundId) {
+			var row, tableCell, select, option, hiddenInput;
+			var self = this;
+
+			this.modalTableBody.innerHTML = ""; //empties the modal table rows
+
+			studentList.forEach(function(studentInfo) {
+				row = document.createElement("tr");
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.studentNumber;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.surname;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.name;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.mail;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.degreeCourse;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.mark;
+				row.appendChild(tableCell);
+
+				tableCell = document.createElement("td");
+				tableCell.textContent = studentInfo.status;
+				row.appendChild(tableCell);
+
+				select = document.createElement("select");
+				select.setAttribute("name", "marks[]");
+				select.setAttribute("type", "number");
+
+				option = document.createElement("option");
+				option.value = 0;
+				option.text = "<not inserted>";
+				option.selected = true;
+				select.appendChild(option);
+
+				option = document.createElement("option");
+				option.value = 1;
+				option.text = "absent";
+				select.appendChild(option);
+
+				option = document.createElement("option");
+				option.value = 2;
+				option.text = "failed";
+				select.appendChild(option);
+
+				option = document.createElement("option");
+				option.value = 3;
+				option.text = "skip next round";
+				select.appendChild(option);
+
+				for (var i = 18; i <= 30; i++) {
+					option = document.createElement("option");
+					option.value = i;
+					option.text = "" + i;  //casting to string
+					select.appendChild(option);
+				}
+
+				option = document.createElement("option");
+				option.value = 31;
+				option.text = "30 with honor";
+				select.appendChild(option);
+
+				row.appendChild(select);
+
+				hiddenInput = document.createElement("input");
+				hiddenInput.value = studentInfo.id;
+				hiddenInput.type = "hidden";
+				hiddenInput.name = "studentIds[]";
+				row.appendChild(hiddenInput);
+
+				self.modalTableBody.appendChild(row);
+			});
+
+			hiddenInput = document.createElement("input");
+			hiddenInput.value = roundId;
+			hiddenInput.type = "hidden";
+			hiddenInput.name = "roundId";
+			this.modalTableBody.appendChild(hiddenInput);
+
+			this.modalDiv.style.display = "block";
+		};
+
+
+		this.closeModalButton.addEventListener("click", (e) => {
+			this.reset();
+		}, false);
+
+
+		this.submitAllMarksButton.addEventListener("click", (e) => {
+
+			var form = e.target.closest("form");
+
+			var self = this;
+
+			if (form.checkValidity()){
+
+				makeCall("POST", "EditMultipleMarks", form,
+				//callBack function
+				function(req) {
+					if (req.readyState == XMLHttpRequest.DONE) {
+						var message = req.responseText;
+
+						if (req.status == 200) {
+							var roundId = parseInt(message);
+
+							self.reset();
+							pageOrchestrator.refresh("roundsList");
+							registeredStudents.show(roundId);
+						}
+						else {
+							self.reset();
+							self.alert.textContent = message;
+						}
+					}
+				});
+			}
+			else {
+				form.reportValidity();
+			}
+
+		}, false);
+
+	} //no ; at the end of this function because it is not a function expression
 
 
 
@@ -450,7 +733,8 @@
 				alertContainer,
 				document.getElementById("registeredStudentsTable"),
 				document.getElementById("registeredStudentsTableBody"),
-				document.getElementById("roundDateInfo")
+				document.getElementById("roundDateInfo"),
+				document.getElementById("registeredStudentsButtonsParagraph")
 			);
 
 			singleInsertion = new SingleInsertion({ // many parameters, wrap them in an object with the {}
@@ -466,7 +750,21 @@
 				newMarkButton: document.getElementById("newMarkButton")
 			});
 
+			verbal = new Verbal(
+				alertContainer,
+				document.getElementById("verbalDiv"),
+				document.getElementById("verbalInfo"),
+				document.getElementById("verbalTableBody")
+			);
 
+			modalMultipleInsertion = new ModalMultipleInsertion(
+				alertContainer,
+				document.getElementById("modalDiv"),
+				document.getElementById("closeModalButton"),
+				document.getElementById("modalTable"),
+				document.getElementById("modalTableBody"),
+				document.getElementById("submitAllMarksButton")
+			);
 			
 
 			document.querySelector("a[href='Logout']").addEventListener("click", (e) => {
@@ -477,6 +775,8 @@
 			});
 
 			//setting the initial state of the page
+			modalMultipleInsertion.reset();
+			verbal.reset();
 			singleInsertion.reset();
 			registeredStudents.reset();
 			roundsList.reset();
@@ -488,33 +788,31 @@
 		this.refresh = function (callingObject) { //currentClass is used for custom autoClicks if we need them
 			alertContainer.textContent = ""; //empties the error message
 
-			switch(callingObject){
+			switch(callingObject){   //due to the waterfall style of the page we use the refresh to hidden all elements after a certain object
 				case "classesList":
 					roundsList.reset();
 					registeredStudents.reset();
 					singleInsertion.reset();
-					//TODO
+					verbal.reset();
 					break;
 
 				case "roundsList":
 					registeredStudents.reset();
 					singleInsertion.reset();
-					//TODO
+					verbal.reset();
 					break;	
 				
 				case "registeredStudents":
 					singleInsertion.reset();
-					//TODO
+					verbal.reset();
 					break;
 				default:
-					break;		
+					//if no string is passed then don't hide anything else other that the error message
+					break;
 			}
 		};
 
 	}//no ; at the end of this function because it is not a function expression
 
 
-
-
-
-})();
+})();  //IIFE

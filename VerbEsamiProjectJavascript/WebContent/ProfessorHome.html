@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" media="all" href="CSS/style.css" />
 <script src="makeCall.js" charset="utf-8" defer></script>
 <script src="professor.js" charset="utf-8" defer></script>
+<script src="sorting.js" charset="utf-8" defer></script>
 
 </head>
 
@@ -57,20 +58,22 @@
                 <table id="registeredStudentsTable" class="boxed">
                 <thead>
                     <tr>
-                        <th>Student Number</th>
-                        <th>Surname</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Degree Course</th>
-                        <th>Mark</th>
-                        <th>Status</th>
+                        <th class="sortable">Student Number</th>
+                        <th class="sortable">Surname</th>
+                        <th class="sortable">Name</th>
+                        <th class="sortable">Email</th>
+                        <th class="sortable">Degree Course</th>
+                        <th class="sortable">Mark</th>
+                        <th class="sortable">Status</th>
                     </tr>
                 </thead>
                 <tbody id="registeredStudentsTableBody">
 
                 </tbody>
 
-            </table></td>
+                </table>
+                <p id="registeredStudentsButtonsParagraph"></p>
+            </td>
 
 
             <!--Single insertion of mark-->
@@ -113,26 +116,56 @@
                 </form>
             </div></td>
 
-
-            <!--Verbal and verbal info    NOT HERE BUT BELOW-->  
-            <td>
-                <!--TODO-->
-
-            </td>
-
         </tr>
     </table>
 
+    <div id="verbalDiv">
+        <p id="verbalInfo"></p>
+
+        <table>
+            <thead>
+                <th>Student Number</th>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Mark</th>
+            </thead>
+            <tbody id="verbalTableBody">
+
+            </tbody>
+        </table>
+
+    </div>
+
     <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div id="modalDiv" class="modal">
 
         <!-- Modal content -->
         <div class="modal-content">
-        <span class="close">&times;</span>   <!-- the 'X' button to close the modal if user doesn't want to commit the multiple insertion-->
-        <table id="modalTable">
-            <!--TODO-->
+        <span id="closeModalButton" class="close">&times;</span>   <!-- the 'X' button to close the modal if user doesn't want to commit the multiple insertion-->
+            <form action="#">
+                <fieldset>
+                    <table id="modalTable">
+                        <thead>
+                            <tr>
+                                <th>Student Number</th>
+                                <th>Surname</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Degree Course</th>
+                                <th>Mark</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id="modalTableBody">
 
-        </table>
+                        </tbody>
+
+                    </table>
+
+                    <input id="submitAllMarksButton" type="button" value="Submit chosen marks"> 
+                </fieldset>
+            </form>        
         </div>
     
     </div>

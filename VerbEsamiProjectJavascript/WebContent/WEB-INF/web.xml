@@ -42,6 +42,7 @@
   	<url-pattern>/student.js</url-pattern>
   	<url-pattern>/professor.js</url-pattern>
   	<url-pattern>/makeCall.js</url-pattern>
+  	<url-pattern>/sorting.js</url-pattern>
   	
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
@@ -56,7 +57,15 @@
   	<url-pattern>/GetRoundsStudent</url-pattern>
   	<url-pattern>/RegisterToRound</url-pattern>
   	<url-pattern>/RejectMark</url-pattern>
-  	
+  	<url-pattern>/EditMark</url-pattern>
+  	<url-pattern>/EditMultipleMarks</url-pattern>
+  	<url-pattern>/GetClassesProfessor</url-pattern>
+  	<url-pattern>/GetOnlyNotInsertedMarkStudentsRegisteredToRound</url-pattern>
+  	<url-pattern>/GetRoundsProfessor</url-pattern>
+  	<url-pattern>/GetStudentsRegisteredToRound</url-pattern>
+  	<url-pattern>/GetVerbalInfo</url-pattern>
+  	<url-pattern>/PublishMarks</url-pattern>
+  	<url-pattern>/VerbalizeMarks</url-pattern>
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   </filter-mapping>
@@ -65,7 +74,15 @@
   <filter-mapping>
   	<filter-name>ProfessorFilter</filter-name>
   	<url-pattern>/ProfessorHome.html</url-pattern>
-  	
+  	<url-pattern>/EditMark</url-pattern>
+  	<url-pattern>/EditMultipleMarks</url-pattern>
+  	<url-pattern>/GetClassesProfessor</url-pattern>
+  	<url-pattern>/GetOnlyNotInsertedMarkStudentsRegisteredToRound</url-pattern>
+  	<url-pattern>/GetRoundsProfessor</url-pattern>
+  	<url-pattern>/GetStudentsRegisteredToRound</url-pattern>
+  	<url-pattern>/GetVerbalInfo</url-pattern>
+  	<url-pattern>/PublishMarks</url-pattern>
+  	<url-pattern>/VerbalizeMarks</url-pattern>
     <dispatcher>REQUEST</dispatcher>
   	<dispatcher>FORWARD</dispatcher>
   </filter-mapping>

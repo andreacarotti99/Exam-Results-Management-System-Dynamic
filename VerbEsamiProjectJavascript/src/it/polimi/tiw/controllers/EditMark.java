@@ -77,7 +77,7 @@ public class EditMark extends HttpServlet {
 		//checks for validity of the parameter passed in the URL
 		if (!isRoundOfThisProfessor || !isStudentRegisteredToThisRound || !isMarkEditable) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);        //status code 401
-			response.getWriter().println("You can't register to this round");
+			response.getWriter().println("You can't modify this mark");
 			return;
 		}
 		
