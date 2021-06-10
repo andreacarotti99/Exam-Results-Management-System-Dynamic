@@ -296,18 +296,15 @@
   
 				if (studentInfo.status == "PUBLISHED") {  //if checks pass then place the reject button
 					if (studentInfo.mark != "<empty>" && studentInfo.mark != "absent" && studentInfo.mark != "failed" && studentInfo.mark != "skip next round") {
-						var linkText, anchor;
+						var button;
 						var self = this;
-						anchor = document.createElement("a");
-						linkText = document.createTextNode("Click here to reject the mark");
-						anchor.appendChild(linkText);
-						anchor.setAttribute("roundId", roundInfo.roundId);
-						anchor.addEventListener("click", (e) => {
-							self.RejectMark(e.target.getAttribute("roundId"));
+						button = document.createElement("button");
+						button.textContent = "Click here to reject the mark";
+						button.addEventListener("click", (e) => {
+							self.RejectMark(roundInfo.roundId);
   
 						}, false);
-						anchor.href = "#";
-						this.rejectButton.appendChild(anchor);
+						this.rejectButton.appendChild(button);
 					}
 				}
 			  }

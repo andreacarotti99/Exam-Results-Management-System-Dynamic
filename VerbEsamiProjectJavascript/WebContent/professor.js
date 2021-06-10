@@ -252,30 +252,37 @@
 				row = document.createElement("tr");
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.studentNumber;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.surname;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.name;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.mail;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.degreeCourse;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.mark;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.status;
 				row.appendChild(tableCell);
 
@@ -499,18 +506,22 @@
 				row = document.createElement("tr");
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.studentNumber;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.surname;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.name;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.mark;
 				row.appendChild(tableCell);
 
@@ -577,30 +588,37 @@
 				row = document.createElement("tr");
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.studentNumber;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.surname;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.name;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.mail;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.degreeCourse;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.mark;
 				row.appendChild(tableCell);
 
 				tableCell = document.createElement("td");
+				tableCell.className = "boxed";
 				tableCell.textContent = studentInfo.status;
 				row.appendChild(tableCell);
 
