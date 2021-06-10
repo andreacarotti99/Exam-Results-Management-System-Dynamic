@@ -92,7 +92,7 @@ public class GetMarkDetailsStudent extends HttpServlet {
 			return;
 		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create(); //custom Gson
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create(); //custom Gson
 		
 		String studentInfoJson = gson.toJson(infoStudent);
 		String roundInfoJson = gson.toJson(roundInfo);

@@ -95,10 +95,11 @@ public class GetVerbalInfo extends HttpServlet {
 			return;
 		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create(); //custom Gson
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create(); //custom Gson
+		Gson gson2 = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();       //gson to format date and time
 		
 		String registeredStudentsJson = gson.toJson(registeredStudents);
-		String verbalJson = gson.toJson(verbal);
+		String verbalJson = gson2.toJson(verbal);
 		String roundJson = gson.toJson(round);
 		
 		String toClient = registeredStudentsJson + "%" + verbalJson + "%" + roundJson;  //this is to pass three separate object serialized with json

@@ -83,7 +83,7 @@ public class GetRoundsStudent extends HttpServlet {
 			return;
 		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create(); //custom Gson
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create(); //custom Gson
 		
 		String jsonRounds = gson.toJson(rounds);
 		response.setStatus(HttpServletResponse.SC_OK);       //status code 200

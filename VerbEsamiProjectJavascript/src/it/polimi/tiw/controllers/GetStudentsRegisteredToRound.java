@@ -93,7 +93,7 @@ public class GetStudentsRegisteredToRound extends HttpServlet {
 			return;
 		}
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create(); //custom Gson
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create(); //custom Gson
 		
 		String registeredStudentsJson = gson.toJson(registeredStudents);
 		String roundInfoJson = gson.toJson(roundInfo);
