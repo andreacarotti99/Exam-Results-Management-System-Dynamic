@@ -49,7 +49,7 @@ public class GetClassesStudent extends HttpServlet {
 			classes = classesDAO.findClassesByStudentId(user.getId());
 		} catch (SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);   //status code 500
-			response.getWriter().println("Not possible to recover missions");
+			response.getWriter().println("Error in database retrieving data");
 			return;
 		}
 		
