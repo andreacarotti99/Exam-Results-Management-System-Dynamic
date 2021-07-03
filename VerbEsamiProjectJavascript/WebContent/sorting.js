@@ -39,9 +39,60 @@
             // if order is ascending, compare 1st row to 2nd , otherwise 2nd to 1st
             var v1 = getCellValue(asc ? a : b, idx),
             v2 = getCellValue(asc ? b : a, idx);
+
+            //if mark column
+            if (lastClickedId == 5){
+                var num1;
+                var num2;
+
+                switch(v1){
+                    case "<empty>":
+                        num1 = 0;
+                        break;
+                    case "absent":
+                        num1 = 1;
+                        break;
+                    case "failed":
+                        num1 = 2;
+                        break;
+                    case "skip next round":
+                        num1 = 3;
+                        break;
+                    case "30 with honor":
+                        num1 = 31;
+                        break;
+                    default:
+                        num1 = parseInt(v1);
+                        break;         
+                }
+
+                switch(v2){
+                    case "<empty>":
+                        num2 = 0;
+                        break;
+                    case "absent":
+                        num2 = 1;
+                        break;
+                    case "failed":
+                        num2 = 2;
+                        break;
+                    case "skip next round":
+                        num2 = 3;
+                        break;
+                    case "30 with honor":
+                        num2 = 31;
+                        break;
+                    default:
+                        num2 = parseInt(v2);
+                        break;         
+                }
+                
+                return num1 - num2; // v1 greater than v2 --> true
+            }
+
             // If non numeric value
             if (v1 === '' || v2 === '' || isNaN(v1) || isNaN(v2)) {
-                return v1.toString().localeCompare(v2); // lexical comparison
+                return v1.toString().localeCompare(v2.toString()); // lexical comparison
             }
             // If numeric value
             return v1 - v2; // v1 greater than v2 --> true
