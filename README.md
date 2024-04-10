@@ -30,7 +30,7 @@ The system retains the original functionalities for managing academic exam resul
 
 ## Comparison with Previous Project
 
-While the server-side logic and database interactions remain similar, the front-end experience is significantly enhanced. The transition to a JavaScript-driven interface allows for a more interactive and responsive application, reducing server load and improving user satisfaction.
+While the server-side logic and database interactions remain similar, the front-end experience is enhanced. The transition to a JavaScript-driven interface allows for a more interactive and responsive application, reducing server load.
 
 ## Conclusion
 
