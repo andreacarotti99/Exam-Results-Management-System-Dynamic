@@ -1,4 +1,4 @@
-# Dynamic Exam Results Management System
+# Exam Results Management System Dynamic
 
 This project is an extension of the previous static servlet-based application that can be found [here](https://github.com/andreacarotti99/Exam-Results-Management-System-Servlets), now enhanced with JavaScript to provide a dynamic and interactive user experience. It maintains the core architecture but shifts from a static server-side rendered approach to a client-side dynamic interaction model using JavaScript and AJAX.
 
